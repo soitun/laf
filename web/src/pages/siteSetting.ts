@@ -10,6 +10,7 @@ type SITE_KEY =
   | "id_verify"
   | "site_url"
   | "ai_pilot_url"
+  | "ai_complete_url"
   | "laf_forum_url"
   | "laf_business_url"
   | "laf_discord_url"
@@ -17,13 +18,15 @@ type SITE_KEY =
   | "laf_status_url"
   | "laf_doc_url"
   | "laf_about_us_url"
-  | "enable_web_promo_page";
+  | "enable_web_promo_page"
+  | "sealaf_notification";
 
+export type SiteSettings = {
+  // eslint-disable-next-line no-unused-vars
+  [key in SITE_KEY]?: TSetting;
+};
 type State = {
-  siteSettings: {
-    // eslint-disable-next-line no-unused-vars
-    [key in SITE_KEY]?: TSetting;
-  };
+  siteSettings: SiteSettings;
   getSiteSettings: () => void;
 };
 

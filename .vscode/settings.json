@@ -141,13 +141,21 @@
     "i18next",
     "general"
   ],
-  "i18n-ally.sourceLanguage": "zh-CN",
-  "i18n-ally.displayLanguage": "en,zh",
+  "i18n-ally.sourceLanguage": "zh",
+  // "i18n-ally.displayLanguage": "en,zh",
+  "i18n-ally.displayLanguage": "zh",
   "i18n-ally.namespace": false,
   "i18n-ally.pathMatcher": "{locale}/translation.json",
   "i18n-ally.keystyle": "nested",
   "i18n-ally.keysInUse": [
     "description.part2_whatever"
   ],
-  "jest.rootPath": "e2e"
+  "jest.rootPath": "e2e",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "[typescriptreact]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "dbaeumer.vscode-eslint"
+  },
 }

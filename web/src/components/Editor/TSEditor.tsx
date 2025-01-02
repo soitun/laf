@@ -1,4 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useState } from "react";
+import { useCompletionFeature } from "react-monaco-copilot";
 import { Spinner } from "@chakra-ui/react";
 import { Editor, Monaco } from "@monaco-editor/react";
 import * as monaco from "monaco-editor/esm/vs/editor/editor.api";
@@ -7,8 +9,11 @@ import { AutoImportTypings } from "@/components/Editor/typesResolve";
 import { COLOR_MODE, RUNTIMES_PATH } from "@/constants";
 
 import "./useWorker";
+
 import useFunctionCache from "@/hooks/useFunctionCache";
 import useFunctionStore from "@/pages/app/functions/store";
+import useCustomSettingStore from "@/pages/customSetting";
+import useSiteSettingStore from "@/pages/siteSetting";
 
 const autoImportTypings = new AutoImportTypings();
 
@@ -21,16 +26,27 @@ export default function TSEditor(props: {
 }) {
   const { value, path, fontSize, onChange, colorMode } = props;
 
+  const [isEditorMounted, setIsEditorMounted] = useState(false);
+
   const functionCache = useFunctionCache();
   const { currentFunction, allFunctionList } = useFunctionStore((state) => state);
+  const { commonSettings } = useCustomSettingStore();
+  const { siteSettings } = useSiteSettingStore();
+
+  const aiCompleteUrl = siteSettings.ai_complete_url?.value;
 
   const monacoRef = useRef<Monaco>();
   const editorRef = useRef<monaco.editor.IStandaloneCodeEditor>();
-  const loadModalsRef = useRef(loadModals);
+  const loadModelsRef = useRef(loadModels);
+  const completionFeature = useCompletionFeature({
+    monaco: monacoRef.current,
+    editor: editorRef.current,
+    apiUrl: aiCompleteUrl || "",
+  });
 
-  loadModalsRef.current = loadModals
+  loadModelsRef.current = loadModels;
 
-  function loadModals(monaco: Monaco) {
+  function loadModels(monaco: Monaco) {
     allFunctionList.forEach((item: any) => {
       const uri = monaco.Uri.file(`${RUNTIMES_PATH}/${item.name}.ts`);
       if (!monaco.editor.getModel(uri)) {
@@ -46,26 +62,37 @@ export default function TSEditor(props: {
   function handleEditorDidMount(editor: monaco.editor.IStandaloneCodeEditor, monaco: Monaco) {
     monacoRef.current = monaco;
     editorRef.current = editor;
+    if (commonSettings.useCopilot && aiCompleteUrl) {
+      completionFeature.onMounted();
+    }
     setTimeout(() => {
-      loadModalsRef.current(monacoRef.current!);
+      loadModelsRef.current(monacoRef.current!);
       autoImportTypings.loadDefaults(monacoRef.current);
     }, 10);
+
+    setIsEditorMounted(true);
   }
 
   useEffect(() => {
-    if (monacoRef.current) {
-      loadModalsRef.current(monacoRef.current!);
+    if (isEditorMounted && monacoRef.current) {
+      loadModelsRef.current(monacoRef.current!);
     }
-  }, [allFunctionList]);
+  }, [allFunctionList, isEditorMounted]);
 
   useEffect(() => {
-    const pos = JSON.parse(functionCache.getPositionCache(path) || "{}");
-    if (pos.lineNumber && pos.column) {
-      editorRef.current?.setPosition(pos);
-      editorRef.current?.revealPositionInCenter(pos);
+    if (isEditorMounted) {
+      const pos = JSON.parse(functionCache.getPositionCache(path) || "{}");
+      if (pos.lineNumber && pos.column) {
+        editorRef.current?.setPosition(pos);
+        editorRef.current?.revealPositionInCenter(pos);
+      }
+
+      if (monacoRef.current) {
+        autoImportTypings.parse(value, monacoRef.current);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [path]);
+  }, [path, isEditorMounted]);
 
   const options = {
     minimap: {

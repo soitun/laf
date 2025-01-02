@@ -8,7 +8,17 @@ declare namespace Definitions {
   };
 
   export type CloudFunction = {
-    name: string;
+    _id?: string;
+    appid?: string;
+    name?: string;
+    source?: Definitions.CloudFunctionSource;
+    desc?: string;
+    tags?: string[];
+    methods?: string[];
+    params?: {};
+    createdAt?: string;
+    updatedAt?: string;
+    createdBy?: string;
   };
 
   export type UpdateFunctionDto = {
@@ -17,6 +27,7 @@ declare namespace Definitions {
     methods?: string[];
     code?: string /* The source code of the function */;
     tags?: string[];
+    changelog?: string;
   };
 
   export type UpdateFunctionDebugDto = {
@@ -204,6 +215,7 @@ declare namespace Definitions {
 
   export type Account = {
     _id?: string;
+    owedAt?: string /* The timestamp when the account became owed */;
     balance?: number;
     state?: string;
     createdAt?: string;
@@ -262,8 +274,8 @@ declare namespace Definitions {
     username?: string /* username, 3-64 characters */;
     password?: string /* password, 8-64 characters */;
     phone?: string /* phone */;
+    email?: string /* email */;
     code?: string /* verify code */;
-    type?: string /* type */;
     inviteCode?: string /* invite code */;
   };
 
@@ -275,8 +287,8 @@ declare namespace Definitions {
   export type PasswdResetDto = {
     password?: string /* new password, 8-64 characters */;
     phone?: string /* phone */;
+    email?: string /* email */;
     code?: string /* verify code */;
-    type?: string /* type */;
   };
 
   export type PasswdCheckDto = {
@@ -303,6 +315,14 @@ declare namespace Definitions {
   export type SendEmailCodeDto = {
     email?: string;
     type?: string /* verify code type */;
+  };
+
+  export type EmailSigninDto = {
+    email?: string /* email */;
+    code?: string;
+    username?: string /* username */;
+    password?: string /* password, 8-64 characters */;
+    inviteCode?: string /* invite code */;
   };
 
   export type GithubSigninDto = {
@@ -363,12 +383,14 @@ declare namespace Definitions {
     storageCapacity?: number;
     autoscaling?: Definitions.CreateAutoscalingDto;
     dedicatedDatabase?: Definitions.CreateDedicatedDatabaseDto;
+    networkTraffic?: number;
     regionId?: string;
   };
 
   export type CalculatePriceResultDto = {
     cpu?: number;
     memory?: number;
+    networkTraffic?: number;
     storageCapacity?: number;
     databaseCapacity?: number;
     total?: number;
@@ -449,6 +471,15 @@ declare namespace Definitions {
 
   export type UpdateGroupMemberRoleDto = {
     role?: string;
+  };
+
+  export type CloudFunctionSource = {
+    code?: string;
+    compiled?: string;
+    uri?: string;
+    version?: number;
+    hash?: string;
+    lang?: string;
   };
 
   export type CreateAutoscalingDto = {
@@ -1171,6 +1202,14 @@ declare namespace Paths {
     export type Responses = any;
   }
 
+  namespace EmailControllerSignin {
+    export type QueryParameters = any;
+
+    export type BodyParameters = Definitions.EmailSigninDto;
+
+    export type Responses = any;
+  }
+
   namespace GithubAuthControllerJumpLogin {
     export type QueryParameters = any;
 
@@ -1668,6 +1707,14 @@ declare namespace Paths {
   }
 
   namespace MonitorControllerGetData {
+    export type QueryParameters = any;
+
+    export type BodyParameters = any;
+
+    export type Responses = any;
+  }
+
+  namespace NotificationControllerFindAll {
     export type QueryParameters = any;
 
     export type BodyParameters = any;

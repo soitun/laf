@@ -90,7 +90,7 @@ export default function BillingDetails() {
         <p>{t("SettingPanel.BillingDetails")}</p>
       </div>
       <div className="mt-4 rounded border">
-        <TableContainer>
+        <TableContainer overflowX="auto">
           <Table variant="striped" colorScheme={darkMode ? "none" : "whiteAlpha"} size={"sm"}>
             <Thead>
               <Tr className={clsx("h-8", !darkMode && "bg-[#F4F6F8]")}>
@@ -104,7 +104,10 @@ export default function BillingDetails() {
                     <Popover>
                       <PopoverTrigger>
                         <Button variant="none" px={0} minW={0} h={0}>
-                          <FilterIcon className="cursor-pointer !text-grayModern-400" fontSize={12} />
+                          <FilterIcon
+                            className="cursor-pointer !text-grayModern-400"
+                            fontSize={12}
+                          />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent zIndex={99} w={24}>
@@ -220,6 +223,16 @@ export default function BillingDetails() {
                   </span>
                 </Th>
                 <Th className="!px-0 !pl-2">
+                  <span
+                    className={clsx(
+                      "border-l pl-2 font-normal",
+                      darkMode ? "" : "text-grayModern-700",
+                    )}
+                  >
+                    {t("Spec.NetworkTraffic")}
+                  </span>
+                </Th>
+                <Th className="!px-0 !pl-2">
                   <span className="flex items-center">
                     <span
                       className={clsx(
@@ -232,12 +245,15 @@ export default function BillingDetails() {
                     <Popover>
                       <PopoverTrigger>
                         <Button variant="none" p={0} h={0} minW={0}>
-                          <FilterIcon className="cursor-pointer !text-grayModern-400" fontSize={12} />
+                          <FilterIcon
+                            className="cursor-pointer !text-grayModern-400"
+                            fontSize={12}
+                          />
                         </Button>
                       </PopoverTrigger>
                       <PopoverContent w={28}>
                         <PopoverBody>
-                          <RadioGroup className="flex flex-col lowercase space-y-2">
+                          <RadioGroup className="flex flex-col space-y-2 lowercase">
                             {STATE_LIST.map((item) => (
                               <Radio
                                 key={item}
@@ -363,6 +379,15 @@ export default function BillingDetails() {
                       }
                     >
                       {item.detail?.storageCapacity?.amount}
+                    </Td>
+                    <Td
+                      className={
+                        darkMode
+                          ? "!border-b-grayModern-600 !text-grayModern-200"
+                          : "text-grayModern-600"
+                      }
+                    >
+                      {item.detail?.networkTraffic?.amount}
                     </Td>
                     <Td
                       className={clsx(

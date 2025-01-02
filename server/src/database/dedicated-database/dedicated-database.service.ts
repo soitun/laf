@@ -137,7 +137,7 @@ export class DedicatedDatabaseService {
       limitMemory,
       requestCPU,
       requestMemory,
-      capacity,
+      capacity: capacity / 1024,
       replicas,
     })
 
@@ -179,7 +179,10 @@ export class DedicatedDatabaseService {
 
     const username = Buffer.from(srv.body.data.username, 'base64').toString()
     const password = Buffer.from(srv.body.data.password, 'base64').toString()
-    const host = Buffer.from(srv.body.data.headlessHost, 'base64').toString()
+    let host = Buffer.from(srv.body.data.headlessHost, 'base64').toString()
+    if (host && !host.includes(namespace)) {
+      host += `.${namespace}`
+    }
     const port = Number(
       Buffer.from(srv.body.data.headlessPort, 'base64').toString(),
     )
@@ -197,6 +200,7 @@ export class DedicatedDatabaseService {
       options: {
         authSource: 'admin',
         replicaSet: `${name}-mongodb`,
+        readPreference: 'secondaryPreferred',
         w: 'majority',
       },
       scheme: 'mongodb',

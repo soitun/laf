@@ -139,7 +139,9 @@
     "DeployChangelog": "Input the description of this function modification (optional)",
     "MoveFunctionTip": "Are you sure to move {{srcFunc}} to {{targetDir}} directory?",
     "MoveFunctionToRootTip": "Are you sure to move {{srcFunc}} to the root directory?",
-    "MovingFunction": "Moving functions..."
+    "MovingFunction": "Moving functions...",
+    "DependenceInstallTip": "Please wait for the completion of dependencies installation after saving. Check the progress in \"Logs\"",
+    "CopyOpenAPIUrl": "Copy OpenAPI url"
   },
   "HomePanel": {
     "APP": "Android or iOS app",
@@ -238,7 +240,7 @@
     "FuncListDisplay": "Function List Display",
     "ListDisplay": "List Display",
     "EditorLanguageServer": "Editor Language Server",
-    "isOpenLanguageServer": "Enable or Close Language server (only effective when the app config is above 0.5C 1G)",
+    "isOpenLanguageServer": "Enable typescript language server (only effective when the spec of the app is above 0.5C 1G)",
     "Editor": "Editor",
     "FuncList": "Function List",
     "EditorMode": "Editor Mode",
@@ -246,7 +248,8 @@
     "MonitorSetting": "Resource Monitor",
     "DatabaseMonitor": "Database monitor",
     "RuntimeMonitor": "Runtime monitor",
-    "ClientSetting": "Client settings"
+    "ClientSetting": "Client settings",
+    "AICompletion": "Enable code intelligent completion (need refresh)"
   },
   "StoragePanel": {
     "All": "Total Capacity",
@@ -412,12 +415,15 @@
     "ResetPasswordSuccess": "Reset password successfully",
     "NewPassword": "New Password",
     "SignUpSuccess": "Sign up successfully",
-    "EmailTip": "Please input a valid Email",
+    "EmailTip": "Please input a valid email",
     "LoginOrRegister": "Login / Register",
     "BindGitHub": "Bind GitHub",
     "BindSuccess": "Bind Successfully",
     "GitHubLogin": "GitHub Login",
-    "PleaseBindUser": "Please bind your user"
+    "PleaseBindUser": "Please bind your user",
+    "Email": "Email",
+    "EmailPlaceholder": "Please input your email",
+    "EmailLogin": "Email Login"
   },
   "Time": "Time",
   "CreateTime": "Created",
@@ -443,7 +449,7 @@
       "description": "Laf provides cloud functions, cloud databases, object storage and other capabilities, writing code like a blog! Launch the ChatGPT app in 3 minutes!"
     },
     "NavBar": {
-      "title": "Laf is an open-source project, we need your Star",
+      "title": "sealaf is an open-source project, we need your Star",
       "home": "Home",
       "dashboard": "Dashboard",
       "price": "Price",
@@ -462,7 +468,7 @@
     "HomePage": {
       "slogan": "Write Code as effortlessly as Blogging",
       "start": "Free Start →",
-      "content1": "Laf is a cloud development platform integrating functions, databases and storage",
+      "content1": "Sealaf is a cloud development platform integrating functions, databases and storage",
       "content2": "Publish online anytime, anywhere"
     },
     "Ability": {
@@ -491,16 +497,16 @@
       "serviceSub": "Learn more"
     },
     "Join": {
-      "title": "Join the laf developer community",
+      "title": "Join the sealaf developer community",
       "subtitle": "Grow up with us",
       "content": "Here you can experience the latest version of Laf at the first time and keep communicating with developers and users in Discord or WeChat groups.",
       "WeChat": "WeChat",
       "forum": "Forum"
     },
     "Footer": {
-      "laf": "Laf provides ready-to-use features such as cloud functions, cloud databases, and object storage. empowers you to write code with the ease of blogging! Get your ChatGPT application up and running in a mere 3 minutes!",
+      "laf": "sealaf provides ready-to-use features such as cloud functions, cloud databases, and object storage. empowers you to write code with the ease of blogging! Get your ChatGPT application up and running in a mere 3 minutes!",
       "product": "Product",
-      "item1_1": "Laf Cloud",
+      "item1_1": "sealaf Cloud",
       "item1_2": "Sealos Cloud",
       "item1_3": "ChangeLog",
       "item1_4": "Vscode Plugin",
@@ -752,5 +758,9 @@
   "UpgradeVersionTip": {
     "Title": "Laf is ready to update!",
     "Description": "Click to update"
+  },
+  "app": {
+    "title": "sealaf",
+    "logo": "Sealaf"
   }
 }

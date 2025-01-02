@@ -200,12 +200,18 @@ export class ApplicationController {
       'develop',
       expires,
     )
+    const openapi_token = await this.fn.generateRuntimeToken(
+      appid,
+      'openapi',
+      expires,
+    )
 
     const res = {
       ...data,
       storage: storage,
       port: region.gatewayConf.port,
       develop_token: develop_token,
+      openapi_token: openapi_token,
 
       /** This is the redundant field of Region */
       tls: region.gatewayConf.tls.enabled,
@@ -365,10 +371,12 @@ export class ApplicationController {
     if (
       dto.dedicatedDatabase?.replicas &&
       origin.resource.dedicatedDatabase?.replicas &&
-      dto.dedicatedDatabase?.replicas !==
+      dto.dedicatedDatabase?.replicas <
         origin.resource.dedicatedDatabase?.replicas
     ) {
-      return ResponseUtil.error('cannot change database replicas')
+      return ResponseUtil.error(
+        'To reduce the number of database replicas, please contact customer support.',
+      )
     }
 
     // check if a user exceeds the resource limit in a region
